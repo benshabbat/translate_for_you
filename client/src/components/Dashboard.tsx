@@ -11,7 +11,6 @@ const Dashboard: React.FC = () => {
   const [english, setEnglish] = useState('');
   const [hebrew, setHebrew] = useState('');
   const [error, setError] = useState('');
-  const [editingWord, setEditingWord] = useState<Word | null>(null);
 
   const { user, logout } = useAuth();
   const navigate = useNavigate();
