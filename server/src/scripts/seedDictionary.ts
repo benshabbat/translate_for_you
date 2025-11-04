@@ -37,92 +37,109 @@ const programmingTerms = [
   { english: 'undefined', hebrew: 'לא מוגדר', category: 'programming', frequency: 75 },
   { english: 'type', hebrew: 'סוג', category: 'programming', frequency: 74 },
   
-  // Control Flow
-  { english: 'if', hebrew: 'אם', category: 'programming', frequency: 73 },
+  // Control Flow & Loops
   { english: 'else', hebrew: 'אחרת', category: 'programming', frequency: 72 },
   { english: 'switch', hebrew: 'מתג', category: 'programming', frequency: 71 },
   { english: 'case', hebrew: 'מקרה', category: 'programming', frequency: 70 },
   { english: 'while', hebrew: 'בזמן ש', category: 'programming', frequency: 68 },
-  { english: 'break', hebrew: 'שבירה', category: 'programming', frequency: 67 },
-  { english: 'continue', hebrew: 'המשך', category: 'programming', frequency: 66 },
+  { english: 'iterate', hebrew: 'לעבור על', category: 'programming', frequency: 65 },
+  { english: 'for loop', hebrew: 'לולאת for', category: 'programming', frequency: 63 },
+  { english: 'while loop', hebrew: 'לולאת while', category: 'programming', frequency: 62 },
+  { english: 'do-while', hebrew: 'do-while', category: 'programming', frequency: 61 },
+  { english: 'foreach', hebrew: 'foreach', category: 'programming', frequency: 60 },
+  { english: 'nested loop', hebrew: 'לולאה מקוננת', category: 'programming', frequency: 59 },
+  { english: 'infinite loop', hebrew: 'לולאה אינסופית', category: 'programming', frequency: 58 },
+  { english: 'iterator', hebrew: 'איטרטור', category: 'programming', frequency: 57 },
   
   // OOP Concepts
-  { english: 'inheritance', hebrew: 'הורשה', category: 'programming', frequency: 65 },
-  { english: 'polymorphism', hebrew: 'פולימורפיזם', category: 'programming', frequency: 64 },
-  { english: 'encapsulation', hebrew: 'אנקפסולציה', category: 'programming', frequency: 63 },
-  { english: 'abstraction', hebrew: 'הפשטה', category: 'programming', frequency: 62 },
-  { english: 'interface', hebrew: 'ממשק', category: 'programming', frequency: 61 },
-  { english: 'constructor', hebrew: 'בנאי', category: 'programming', frequency: 60 },
-  { english: 'destructor', hebrew: 'הורס', category: 'programming', frequency: 59 },
-  { english: 'public', hebrew: 'ציבורי', category: 'programming', frequency: 58 },
-  { english: 'private', hebrew: 'פרטי', category: 'programming', frequency: 57 },
-  { english: 'protected', hebrew: 'מוגן', category: 'programming', frequency: 56 },
-  { english: 'static', hebrew: 'סטטי', category: 'programming', frequency: 55 },
+  { english: 'object oriented programming', hebrew: 'תכנות מונחה עצמים', category: 'programming', frequency: 56 },
+  { english: 'oop', hebrew: 'OOP', category: 'programming', frequency: 55 },
+  { english: 'inheritance', hebrew: 'הורשה', category: 'programming', frequency: 54 },
+  { english: 'polymorphism', hebrew: 'פולימורפיזם', category: 'programming', frequency: 53 },
+  { english: 'encapsulation', hebrew: 'אנקפסולציה', category: 'programming', frequency: 52 },
+  { english: 'abstraction', hebrew: 'הפשטה', category: 'programming', frequency: 51 },
+  { english: 'interface', hebrew: 'ממשק', category: 'programming', frequency: 50 },
+  { english: 'constructor', hebrew: 'בנאי', category: 'programming', frequency: 49 },
+  { english: 'destructor', hebrew: 'הורס', category: 'programming', frequency: 48 },
+  { english: 'public', hebrew: 'ציבורי', category: 'programming', frequency: 47 },
+  { english: 'private', hebrew: 'פרטי', category: 'programming', frequency: 46 },
+  { english: 'protected', hebrew: 'מוגן', category: 'programming', frequency: 45 },
+  { english: 'static', hebrew: 'סטטי', category: 'programming', frequency: 44 },
+  { english: 'instance', hebrew: 'מופע', category: 'programming', frequency: 43 },
+  { english: 'super', hebrew: 'super / על', category: 'programming', frequency: 41 },
+  { english: 'extends', hebrew: 'מרחיב', category: 'programming', frequency: 40 },
+  { english: 'implements', hebrew: 'מיישם', category: 'programming', frequency: 39 },
+  { english: 'override', hebrew: 'דריסה', category: 'programming', frequency: 38 },
+  { english: 'overload', hebrew: 'עומס יתר', category: 'programming', frequency: 37 },
+  { english: 'abstract class', hebrew: 'מחלקה מופשטת', category: 'programming', frequency: 36 },
+  { english: 'virtual', hebrew: 'וירטואלי', category: 'programming', frequency: 35 },
+  { english: 'final', hebrew: 'סופי', category: 'programming', frequency: 34 },
+  { english: 'getter', hebrew: 'גטר / מקבל', category: 'programming', frequency: 33 },
+  { english: 'setter', hebrew: 'סטר / מגדיר', category: 'programming', frequency: 32 },
+  { english: 'property', hebrew: 'תכונה', category: 'programming', frequency: 31 },
+  { english: 'attribute', hebrew: 'מאפיין', category: 'programming', frequency: 30 },
   
   // Data Structures
-  { english: 'list', hebrew: 'רשימה', category: 'programming', frequency: 54 },
-  { english: 'queue', hebrew: 'תור', category: 'programming', frequency: 53 },
-  { english: 'stack', hebrew: 'מחסנית', category: 'programming', frequency: 52 },
-  { english: 'tree', hebrew: 'עץ', category: 'programming', frequency: 51 },
-  { english: 'graph', hebrew: 'גרף', category: 'programming', frequency: 50 },
-  { english: 'hash', hebrew: 'גיבוב', category: 'programming', frequency: 49 },
-  { english: 'map', hebrew: 'מיפוי', category: 'programming', frequency: 48 },
-  { english: 'set', hebrew: 'קבוצה', category: 'programming', frequency: 47 },
-  { english: 'dictionary', hebrew: 'מילון', category: 'programming', frequency: 46 },
+  { english: 'list', hebrew: 'רשימה', category: 'programming', frequency: 29 },
+  { english: 'queue', hebrew: 'תור', category: 'programming', frequency: 28 },
+  { english: 'stack', hebrew: 'מחסנית', category: 'programming', frequency: 27 },
+  { english: 'tree', hebrew: 'עץ', category: 'programming', frequency: 26 },
+  { english: 'graph', hebrew: 'גרף', category: 'programming', frequency: 25 },
+  { english: 'hash', hebrew: 'גיבוב', category: 'programming', frequency: 24 },
+  { english: 'map', hebrew: 'מיפוי', category: 'programming', frequency: 23 },
+  { english: 'dictionary', hebrew: 'מילון', category: 'programming', frequency: 21 },
   
   // Database
-  { english: 'database', hebrew: 'מסד נתונים', category: 'programming', frequency: 45 },
-  { english: 'query', hebrew: 'שאילתה', category: 'programming', frequency: 44 },
-  { english: 'table', hebrew: 'טבלה', category: 'programming', frequency: 43 },
-  { english: 'record', hebrew: 'רשומה', category: 'programming', frequency: 42 },
-  { english: 'field', hebrew: 'שדה', category: 'programming', frequency: 41 },
-  { english: 'index', hebrew: 'אינדקס', category: 'programming', frequency: 40 },
-  { english: 'primary key', hebrew: 'מפתח ראשי', category: 'programming', frequency: 39 },
-  { english: 'foreign key', hebrew: 'מפתח זר', category: 'programming', frequency: 38 },
+  { english: 'database', hebrew: 'מסד נתונים', category: 'programming', frequency: 20 },
+  { english: 'query', hebrew: 'שאילתה', category: 'programming', frequency: 19 },
+  { english: 'table', hebrew: 'טבלה', category: 'programming', frequency: 18 },
+  { english: 'record', hebrew: 'רשומה', category: 'programming', frequency: 17 },
+  { english: 'field', hebrew: 'שדה', category: 'programming', frequency: 16 },
+  { english: 'index', hebrew: 'אינדקס', category: 'programming', frequency: 15 },
+  { english: 'primary key', hebrew: 'מפתח ראשי', category: 'programming', frequency: 14 },
+  { english: 'foreign key', hebrew: 'מפתח זר', category: 'programming', frequency: 13 },
   
   // Web Development
-  { english: 'website', hebrew: 'אתר אינטרנט', category: 'programming', frequency: 37 },
-  { english: 'server', hebrew: 'שרת', category: 'programming', frequency: 36 },
-  { english: 'client', hebrew: 'לקוח', category: 'programming', frequency: 35 },
-  { english: 'request', hebrew: 'בקשה', category: 'programming', frequency: 34 },
-  { english: 'response', hebrew: 'תגובה', category: 'programming', frequency: 33 },
-  { english: 'html', hebrew: 'HTML', category: 'programming', frequency: 32 },
-  { english: 'css', hebrew: 'CSS', category: 'programming', frequency: 31 },
-  { english: 'javascript', hebrew: 'ג\'אווהסקריפט', category: 'programming', frequency: 30 },
-  { english: 'frontend', hebrew: 'חזית', category: 'programming', frequency: 29 },
-  { english: 'backend', hebrew: 'עורף', category: 'programming', frequency: 28 },
-  { english: 'api', hebrew: 'ממשק תכנות', category: 'programming', frequency: 27 },
-  { english: 'endpoint', hebrew: 'נקודת קצה', category: 'programming', frequency: 26 },
-  { english: 'route', hebrew: 'נתיב', category: 'programming', frequency: 25 },
-  { english: 'url', hebrew: 'כתובת אינטרנט', category: 'programming', frequency: 24 },
-  { english: 'http', hebrew: 'HTTP', category: 'programming', frequency: 23 },
-  { english: 'https', hebrew: 'HTTPS', category: 'programming', frequency: 22 },
-  { english: 'cookie', hebrew: 'עוגייה', category: 'programming', frequency: 21 },
-  { english: 'session', hebrew: 'הפעלה', category: 'programming', frequency: 20 },
+  { english: 'website', hebrew: 'אתר אינטרנט', category: 'programming', frequency: 12 },
+  { english: 'server', hebrew: 'שרת', category: 'programming', frequency: 11 },
+  { english: 'client', hebrew: 'לקוח', category: 'programming', frequency: 10 },
+  { english: 'request', hebrew: 'בקשה', category: 'programming', frequency: 9 },
+  { english: 'response', hebrew: 'תגובה', category: 'programming', frequency: 8 },
+  { english: 'html', hebrew: 'HTML', category: 'programming', frequency: 7 },
+  { english: 'css', hebrew: 'CSS', category: 'programming', frequency: 6 },
+  { english: 'javascript', hebrew: 'ג\'אווהסקריפט', category: 'programming', frequency: 5 },
+  { english: 'frontend', hebrew: 'חזית', category: 'programming', frequency: 4 },
+  { english: 'backend', hebrew: 'עורף', category: 'programming', frequency: 3 },
+  { english: 'api', hebrew: 'ממשק תכנות', category: 'programming', frequency: 2 },
+  { english: 'endpoint', hebrew: 'נקודת קצה', category: 'programming', frequency: 1 },
+  { english: 'route', hebrew: 'נתיב', category: 'programming', frequency: 1 },
+  { english: 'url', hebrew: 'כתובת אינטרנט', category: 'programming', frequency: 1 },
+  { english: 'http', hebrew: 'HTTP', category: 'programming', frequency: 1 },
+  { english: 'https', hebrew: 'HTTPS', category: 'programming', frequency: 1 },
+  { english: 'cookie', hebrew: 'עוגייה', category: 'programming', frequency: 1 },
+  { english: 'session', hebrew: 'הפעלה', category: 'programming', frequency: 1 },
   
   // Error Handling
-  { english: 'error', hebrew: 'שגיאה', category: 'programming', frequency: 19 },
-  { english: 'exception', hebrew: 'חריגה', category: 'programming', frequency: 18 },
-  { english: 'bug', hebrew: 'באג', category: 'programming', frequency: 17 },
-  { english: 'debug', hebrew: 'ניפוי שגיאות', category: 'programming', frequency: 16 },
-  { english: 'try', hebrew: 'נסה', category: 'programming', frequency: 15 },
-  { english: 'catch', hebrew: 'תפוס', category: 'programming', frequency: 14 },
-  { english: 'throw', hebrew: 'זרוק', category: 'programming', frequency: 13 },
-  { english: 'finally', hebrew: 'לבסוף', category: 'programming', frequency: 12 },
+  { english: 'error', hebrew: 'שגיאה', category: 'programming', frequency: 1 },
+  { english: 'exception', hebrew: 'חריגה', category: 'programming', frequency: 1 },
+  { english: 'bug', hebrew: 'באג', category: 'programming', frequency: 1 },
+  { english: 'debug', hebrew: 'ניפוי שגיאות', category: 'programming', frequency: 1 },
+  { english: 'catch', hebrew: 'תפוס', category: 'programming', frequency: 1 },
+  { english: 'throw', hebrew: 'זרוק', category: 'programming', frequency: 1 },
+  { english: 'finally', hebrew: 'לבסוף', category: 'programming', frequency: 1 },
   
   // Version Control
-  { english: 'git', hebrew: 'גיט', category: 'programming', frequency: 11 },
-  { english: 'commit', hebrew: 'התחייבות', category: 'programming', frequency: 10 },
-  { english: 'branch', hebrew: 'ענף', category: 'programming', frequency: 9 },
-  { english: 'merge', hebrew: 'מיזוג', category: 'programming', frequency: 8 },
-  { english: 'pull', hebrew: 'משיכה', category: 'programming', frequency: 7 },
-  { english: 'push', hebrew: 'דחיפה', category: 'programming', frequency: 6 },
-  { english: 'clone', hebrew: 'שכפול', category: 'programming', frequency: 5 },
-  { english: 'repository', hebrew: 'מאגר', category: 'programming', frequency: 4 },
+  { english: 'git', hebrew: 'גיט', category: 'programming', frequency: 1 },
+  { english: 'commit', hebrew: 'התחייבות', category: 'programming', frequency: 1 },
+  { english: 'branch', hebrew: 'ענף', category: 'programming', frequency: 1 },
+  { english: 'merge', hebrew: 'מיזוג', category: 'programming', frequency: 1 },
+  { english: 'pull', hebrew: 'משיכה', category: 'programming', frequency: 1 },
+  { english: 'push', hebrew: 'דחיפה', category: 'programming', frequency: 1 },
+  { english: 'clone', hebrew: 'שכפול', category: 'programming', frequency: 1 },
+  { english: 'repository', hebrew: 'מאגר', category: 'programming', frequency: 1 },
   
   // Testing
-  { english: 'test', hebrew: 'בדיקה', category: 'programming', frequency: 3 },
-  { english: 'unit test', hebrew: 'בדיקת יחידה', category: 'programming', frequency: 2 },
+  { english: 'unit test', hebrew: 'בדיקת יחידה', category: 'programming', frequency: 1 },
   { english: 'integration', hebrew: 'אינטגרציה', category: 'programming', frequency: 1 },
   
   // Additional Programming Terms
@@ -289,11 +306,9 @@ const commonWords = [
   { english: 'were', hebrew: 'היו', category: 'common', frequency: 394 },
   { english: 'said', hebrew: 'אמר', category: 'common', frequency: 393 },
   { english: 'did', hebrew: 'עשה', category: 'common', frequency: 392 },
-  { english: 'get', hebrew: 'לקבל', category: 'common', frequency: 391 },
   { english: 'may', hebrew: 'אולי', category: 'common', frequency: 390 },
   { english: 'find', hebrew: 'למצוא', category: 'common', frequency: 389 },
   { english: 'thing', hebrew: 'דבר', category: 'common', frequency: 388 },
-  { english: 'give', hebrew: 'לתת', category: 'common', frequency: 387 },
   { english: 'many', hebrew: 'הרבה', category: 'common', frequency: 386 },
   { english: 'must', hebrew: 'חייב', category: 'common', frequency: 385 },
   { english: 'before', hebrew: 'לפני', category: 'common', frequency: 384 },
@@ -396,19 +411,29 @@ const seedDatabase = async () => {
 
     // Add programming terms
     for (const term of programmingTerms) {
-      await Dictionary.create({
-        ...term,
-        isProgramming: true
-      });
+      await Dictionary.updateOne(
+        { english: term.english.toLowerCase() },
+        {
+          ...term,
+          english: term.english.toLowerCase(),
+          isProgramming: true
+        },
+        { upsert: true }
+      );
     }
     console.log(`✅ Added ${programmingTerms.length} programming terms`);
 
     // Add common words
     for (const word of commonWords) {
-      await Dictionary.create({
-        ...word,
-        isProgramming: false
-      });
+      await Dictionary.updateOne(
+        { english: word.english.toLowerCase() },
+        {
+          ...word,
+          english: word.english.toLowerCase(),
+          isProgramming: false
+        },
+        { upsert: true }
+      );
     }
     console.log(`✅ Added ${commonWords.length} common words`);
 

@@ -55,6 +55,8 @@ router.post('/translate', optionalAuth, async (req: AuthRequest, res: Response) 
     }
 
     try {
+      console.log(`🌐 Attempting LibreTranslate API for: "${text}"`);
+      
       const response = await fetch('https://libretranslate.com/translate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -62,11 +64,20 @@ router.post('/translate', optionalAuth, async (req: AuthRequest, res: Response) 
       });
 
       const data: any = await response.json();
+      console.log('📥 LibreTranslate response:', data);
+      
+      if (data.error) {
+        console.log('❌ LibreTranslate error:', data.error);
+      }
+      
       if (data.translatedText) {
+        console.log(`✅ Translation found: "${data.translatedText}"`);
         return res.json({ translation: data.translatedText, source: 'api' });
+      } else {
+        console.log('⚠️  No translatedText in response');
       }
     } catch (apiError) {
-      console.log('API unavailable');
+      console.error('❌ API Error:', apiError);
     }
 
     return res.status(404).json({ 
