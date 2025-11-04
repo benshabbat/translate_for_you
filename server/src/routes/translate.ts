@@ -55,26 +55,23 @@ router.post('/translate', optionalAuth, async (req: AuthRequest, res: Response) 
     }
 
     try {
-      console.log(`🌐 Attempting LibreTranslate API for: "${text}"`);
+      console.log(`🌐 Attempting free translation API for: "${text}"`);
       
-      const response = await fetch('https://libretranslate.com/translate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ q: text, source: 'en', target: 'he', format: 'text' })
-      });
+      // Using MyMemory Translation API - Free, no API key required
+      // Limit: 1000 words/day
+      const response = await fetch(
+        `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|he`
+      );
 
       const data: any = await response.json();
-      console.log('📥 LibreTranslate response:', data);
+      console.log('📥 Translation API response:', data);
       
-      if (data.error) {
-        console.log('❌ LibreTranslate error:', data.error);
-      }
-      
-      if (data.translatedText) {
-        console.log(`✅ Translation found: "${data.translatedText}"`);
-        return res.json({ translation: data.translatedText, source: 'api' });
+      if (data.responseStatus === 200 && data.responseData && data.responseData.translatedText) {
+        const translation = data.responseData.translatedText;
+        console.log(`✅ Translation found: "${translation}"`);
+        return res.json({ translation, source: 'api' });
       } else {
-        console.log('⚠️  No translatedText in response');
+        console.log('⚠️  No translation in response:', data);
       }
     } catch (apiError) {
       console.error('❌ API Error:', apiError);
