@@ -12,6 +12,8 @@ export interface Word {
   lastPracticed?: string;
   correctCount: number;
   incorrectCount: number;
+  searchCount: number;
+  lastSearched?: string;
 }
 
 export interface AuthResponse {

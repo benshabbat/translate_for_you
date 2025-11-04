@@ -44,13 +44,25 @@ router.post(
       });
 
       if (existingWord) {
-        return res.status(400).json({ message: 'המילה כבר קיימת במאגר שלך' });
+        // Word already exists - increment search count and update last searched
+        existingWord.searchCount = (existingWord.searchCount || 0) + 1;
+        existingWord.lastSearched = new Date();
+        await existingWord.save();
+        
+        return res.status(200).json({ 
+          word: existingWord,
+          message: 'המילה כבר קיימת במאגר שלך',
+          alreadyExists: true,
+          searchCount: existingWord.searchCount
+        });
       }
 
       const word = new Word({
         userId: req.userId,
         english: english.toLowerCase(),
-        hebrew
+        hebrew,
+        searchCount: 1,
+        lastSearched: new Date()
       });
 
       await word.save();
@@ -84,7 +96,7 @@ router.post(
   }
 );
 
-// Get random words for practice
+// Get random words for practice (weighted by search count)
 router.get('/practice/:count', async (req: AuthRequest, res: Response) => {
   try {
     const count = parseInt(req.params.count) || 10;
@@ -92,9 +104,47 @@ router.get('/practice/:count', async (req: AuthRequest, res: Response) => {
     // Convert userId string to ObjectId for MongoDB query
     const userObjectId = new mongoose.Types.ObjectId(req.userId);
     
+    // Get words with weighted random selection
+    // Words with higher searchCount appear more frequently in practice
     const words = await Word.aggregate([
       { $match: { userId: userObjectId } },
-      { $sample: { size: count } }
+      // Add weight field based on searchCount (minimum 1)
+      { 
+        $addFields: { 
+          weight: { 
+            $add: [
+              { $ifNull: ['$searchCount', 1] },
+              // Also consider words with low accuracy
+              { 
+                $cond: [
+                  { $gt: [{ $add: ['$correctCount', '$incorrectCount'] }, 0] },
+                  {
+                    $multiply: [
+                      2,
+                      { 
+                        $subtract: [
+                          1,
+                          { 
+                            $divide: [
+                              '$correctCount',
+                              { $add: ['$correctCount', '$incorrectCount'] }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  0
+                ]
+              }
+            ]
+          }
+        }
+      },
+      // Duplicate documents based on weight for weighted sampling
+      { $sample: { size: count * 3 } }, // Sample more to ensure variety
+      { $sort: { weight: -1, lastSearched: -1 } },
+      { $limit: count }
     ]);
 
     res.json(words);

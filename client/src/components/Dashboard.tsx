@@ -59,7 +59,14 @@ const Dashboard: React.FC = () => {
     setError('');
 
     try {
-      await wordsApi.add(english, hebrew);
+      const response = await wordsApi.add(english, hebrew);
+      
+      // Check if word already existed
+      if (response.data.alreadyExists) {
+        setError(`✅ ${response.data.message} (חיפשת ${response.data.searchCount} פעמים)`);
+        setTimeout(() => setError(''), 3000);
+      }
+      
       setEnglish('');
       setHebrew('');
       setShowAddForm(false);
@@ -197,11 +204,24 @@ const Dashboard: React.FC = () => {
                   <div className="word-content">
                     <div style={{ fontWeight: 'bold', fontSize: '18px', marginBottom: '5px' }}>
                       {word.english}
+                      {word.searchCount > 1 && (
+                        <span style={{ 
+                          marginLeft: '10px', 
+                          fontSize: '14px', 
+                          color: '#667eea',
+                          backgroundColor: '#e0e7ff',
+                          padding: '2px 8px',
+                          borderRadius: '12px',
+                          fontWeight: 'normal'
+                        }}>
+                          🔍 {word.searchCount}x
+                        </span>
+                      )}
                     </div>
                     <div style={{ color: '#6b7280' }}>{word.hebrew}</div>
                     <div style={{ fontSize: '12px', color: '#9ca3af', marginTop: '5px' }}>
                       ✅ {word.correctCount} | ❌ {word.incorrectCount}
-                      {word.lastPracticed && ` | תורגל לאחרונה: ${new Date(word.lastPracticed).toLocaleDateString('he-IL')}`}
+                      {word.lastPracticed && ` | תורגל: ${new Date(word.lastPracticed).toLocaleDateString('he-IL')}`}
                     </div>
                   </div>
                   <div className="word-actions">

@@ -8,6 +8,8 @@ export interface IWord extends Document {
   lastPracticed?: Date;
   correctCount: number;
   incorrectCount: number;
+  searchCount: number; // How many times user searched for this word
+  lastSearched?: Date; // Last time user searched for this word
 }
 
 const wordSchema = new Schema<IWord>({
@@ -41,6 +43,14 @@ const wordSchema = new Schema<IWord>({
   incorrectCount: {
     type: Number,
     default: 0
+  },
+  searchCount: {
+    type: Number,
+    default: 1
+  },
+  lastSearched: {
+    type: Date,
+    default: Date.now
   }
 });
 
