@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth';
 import wordRoutes from './routes/words';
+import translateRoutes from './routes/translate';
 
 // Load environment variables
 dotenv.config();
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/words', wordRoutes);
+app.use('/api/translate', translateRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

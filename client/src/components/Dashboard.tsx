@@ -11,6 +11,7 @@ const Dashboard: React.FC = () => {
   const [english, setEnglish] = useState('');
   const [hebrew, setHebrew] = useState('');
   const [error, setError] = useState('');
+  const [isTranslating, setIsTranslating] = useState(false);
 
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -18,6 +19,44 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     loadWords();
   }, []);
+
+  // Auto-translate when English word changes
+  useEffect(() => {
+    const translateWord = async () => {
+      if (english.trim().length > 2 && showAddForm) {
+        setIsTranslating(true);
+        try {
+          // Use our backend translation service
+          const response = await fetch('/api/translate/translate', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              text: english.trim()
+            })
+          });
+          
+          const data = await response.json();
+          if (data.translation) {
+            setHebrew(data.translation);
+          } else if (data.message) {
+            // Translation not found, user can enter manually
+            console.log(data.message);
+          }
+        } catch (err) {
+          // If translation fails, just continue without auto-translation
+          console.log('Translation not available');
+        } finally {
+          setIsTranslating(false);
+        }
+      }
+    };
+
+    // Debounce the translation to avoid too many API calls
+    const timer = setTimeout(translateWord, 800);
+    return () => clearTimeout(timer);
+  }, [english, showAddForm]);
 
   const loadWords = async () => {
     try {
@@ -137,17 +176,22 @@ const Dashboard: React.FC = () => {
                   value={english}
                   onChange={(e) => setEnglish(e.target.value)}
                   required
+                  placeholder="הקלד מילה באנגלית..."
                 />
               </div>
               <div className="form-group">
-                <label>תרגום לעברית</label>
+                <label>תרגום לעברית {isTranslating && <span style={{ color: '#667eea', fontSize: '14px' }}>⏳ מתרגם...</span>}</label>
                 <input
                   type="text"
                   className="input"
                   value={hebrew}
                   onChange={(e) => setHebrew(e.target.value)}
                   required
+                  placeholder="התרגום יופיע אוטומטית..."
                 />
+                <small style={{ color: '#6b7280', fontSize: '12px', marginTop: '5px', display: 'block' }}>
+                  💡 הקלד מילה באנגלית והתרגום יופיע אוטומטית. ניתן לערוך אותו.
+                </small>
               </div>
               {error && <div className="error">{error}</div>}
               <button type="submit" className="btn btn-primary">

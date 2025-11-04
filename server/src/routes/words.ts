@@ -2,6 +2,7 @@ import { Router, Response } from 'express';
 import { body, validationResult } from 'express-validator';
 import { Word } from '../models/Word';
 import { auth, AuthRequest } from '../middleware/auth';
+import mongoose from 'mongoose';
 
 const router = Router();
 
@@ -64,8 +65,12 @@ router.post(
 router.get('/practice/:count', async (req: AuthRequest, res: Response) => {
   try {
     const count = parseInt(req.params.count) || 10;
+    
+    // Convert userId string to ObjectId for MongoDB query
+    const userObjectId = new mongoose.Types.ObjectId(req.userId);
+    
     const words = await Word.aggregate([
-      { $match: { userId: req.userId } },
+      { $match: { userId: userObjectId } },
       { $sample: { size: count } }
     ]);
 
