@@ -49,12 +49,21 @@ app.get('/', (req: Request, res: Response) => {
   });
 });
 
-// MongoDB connection
-let isConnected = false;
-
+// MongoDB connection with proper serverless handling
 const connectDB = async () => {
-  if (isConnected) {
-    console.log('Using existing MongoDB connection');
+  // Check if already connected using mongoose connection state
+  if (mongoose.connection.readyState === 1) {
+    console.log('✅ Using existing MongoDB connection');
+    return;
+  }
+
+  // Check if currently connecting
+  if (mongoose.connection.readyState === 2) {
+    console.log('⏳ MongoDB connection in progress, waiting...');
+    // Wait for connection to complete
+    await new Promise((resolve) => {
+      mongoose.connection.once('connected', resolve);
+    });
     return;
   }
 
@@ -63,13 +72,15 @@ const connectDB = async () => {
     if (!mongoURI) {
       throw new Error('MONGODB_URI environment variable is not defined');
     }
-    console.log('Attempting to connect to MongoDB...');
-    await mongoose.connect(mongoURI);
-    isConnected = true;
+    
+    console.log('🔌 Attempting to connect to MongoDB...');
+    await mongoose.connect(mongoURI, {
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+    });
     console.log('✅ Connected to MongoDB successfully');
   } catch (error) {
     console.error('❌ MongoDB connection error:', error);
-    isConnected = false;
     throw error;
   }
 };
@@ -81,7 +92,8 @@ export default async (req: any, res: any) => {
     console.log('🔑 Environment check:', {
       hasMongoURI: !!process.env.MONGODB_URI,
       hasJWTSecret: !!process.env.JWT_SECRET,
-      nodeEnv: process.env.NODE_ENV
+      nodeEnv: process.env.NODE_ENV,
+      mongooseState: mongoose.connection.readyState
     });
     
     await connectDB();
