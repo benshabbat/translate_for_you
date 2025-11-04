@@ -1,6 +1,7 @@
 import { Router, Response } from 'express';
 import { body, validationResult } from 'express-validator';
 import { Word } from '../models/Word';
+import { Dictionary } from '../models/Dictionary';
 import { auth, AuthRequest } from '../middleware/auth';
 import mongoose from 'mongoose';
 
@@ -53,6 +54,28 @@ router.post(
       });
 
       await word.save();
+      
+      // Add to global dictionary if it doesn't exist
+      try {
+        const existingInDict = await Dictionary.findOne({
+          english: english.toLowerCase()
+        });
+        
+        if (!existingInDict) {
+          await Dictionary.create({
+            english: english.toLowerCase(),
+            hebrew,
+            category: 'user-contributed',
+            frequency: 0,
+            isProgramming: false
+          });
+          console.log(`✅ Added to global dictionary: ${english.toLowerCase()}`);
+        }
+      } catch (dictError) {
+        // If dictionary insert fails, don't fail the word creation
+        console.log('⚠️  Could not add to dictionary:', dictError);
+      }
+      
       res.status(201).json(word);
     } catch (error) {
       console.error('Error adding word:', error);
