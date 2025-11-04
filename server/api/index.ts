@@ -23,7 +23,17 @@ app.use('/api/translate', translateRoutes);
 
 // Health check
 app.get('/api/health', (req: Request, res: Response) => {
-  res.json({ status: 'ok', message: 'Server is running on Vercel' });
+  res.json({ 
+    status: 'ok', 
+    message: 'Server is running on Vercel',
+    environment: {
+      hasMongoURI: !!process.env.MONGODB_URI,
+      hasJWTSecret: !!process.env.JWT_SECRET,
+      nodeEnv: process.env.NODE_ENV,
+      mongooseConnection: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+    },
+    timestamp: new Date().toISOString()
+  });
 });
 
 // Root endpoint
@@ -67,13 +77,24 @@ const connectDB = async () => {
 // Vercel serverless function handler
 export default async (req: any, res: any) => {
   try {
+    console.log('📥 Incoming request:', req.method, req.url);
+    console.log('🔑 Environment check:', {
+      hasMongoURI: !!process.env.MONGODB_URI,
+      hasJWTSecret: !!process.env.JWT_SECRET,
+      nodeEnv: process.env.NODE_ENV
+    });
+    
     await connectDB();
+    console.log('✅ MongoDB connected, processing request');
     return app(req, res);
   } catch (error) {
-    console.error('Serverless function error:', error);
+    console.error('❌ Serverless function error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('Error details:', errorMessage);
     return res.status(500).json({ 
       error: 'Internal server error',
-      message: error instanceof Error ? error.message : 'Unknown error'
+      message: errorMessage,
+      timestamp: new Date().toISOString()
     });
   }
 };
