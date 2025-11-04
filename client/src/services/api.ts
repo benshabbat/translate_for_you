@@ -47,4 +47,10 @@ export const wordsApi = {
     api.put(`/words/${id}/practice`, { correct }),
 };
 
+// Translation API
+export const translateApi = {
+  translate: (text: string) =>
+    api.post('/translate/translate', { text }),
+};
+
 export default api;

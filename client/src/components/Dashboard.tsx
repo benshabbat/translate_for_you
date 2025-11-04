@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { wordsApi } from '../services/api';
+import { wordsApi, translateApi } from '../services/api';
 import { Word } from '../types';
 
 const Dashboard: React.FC = () => {
@@ -26,27 +26,12 @@ const Dashboard: React.FC = () => {
       if (english.trim().length > 2 && showAddForm) {
         setIsTranslating(true);
         try {
-          // Use our backend translation service
-          const response = await fetch('/api/translate/translate', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              text: english.trim()
-            })
-          });
-          
-          const data = await response.json();
-          if (data.translation) {
-            setHebrew(data.translation);
-          } else if (data.message) {
-            // Translation not found, user can enter manually
-            console.log(data.message);
+          const response = await translateApi.translate(english.trim());
+          if (response.data.translation) {
+            setHebrew(response.data.translation);
           }
         } catch (err) {
-          // If translation fails, just continue without auto-translation
-          console.log('Translation not available');
+          console.log('Translation not available:', err);
         } finally {
           setIsTranslating(false);
         }
