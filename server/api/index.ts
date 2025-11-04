@@ -49,18 +49,31 @@ const connectDB = async () => {
   }
 
   try {
-    const mongoURI = process.env.MONGODB_URI || '';
+    const mongoURI = process.env.MONGODB_URI;
+    if (!mongoURI) {
+      throw new Error('MONGODB_URI environment variable is not defined');
+    }
+    console.log('Attempting to connect to MongoDB...');
     await mongoose.connect(mongoURI);
     isConnected = true;
-    console.log('✅ Connected to MongoDB');
+    console.log('✅ Connected to MongoDB successfully');
   } catch (error) {
     console.error('❌ MongoDB connection error:', error);
+    isConnected = false;
     throw error;
   }
 };
 
 // Vercel serverless function handler
-export default async (req: Request, res: Response) => {
-  await connectDB();
-  return app(req, res);
+export default async (req: any, res: any) => {
+  try {
+    await connectDB();
+    return app(req, res);
+  } catch (error) {
+    console.error('Serverless function error:', error);
+    return res.status(500).json({ 
+      error: 'Internal server error',
+      message: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
 };
