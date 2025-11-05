@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { dictionaryApi } from '../services/api';
+import { dictionaryApi, wordsApi } from '../services/api';
 
 interface DictionaryWord {
   _id: string;
@@ -26,6 +26,8 @@ const DictionaryPractice: React.FC = () => {
   const [suggestedTranslation, setSuggestedTranslation] = useState('');
   const [reportReason, setReportReason] = useState('');
   const [reportSuccess, setReportSuccess] = useState('');
+  const [addedToMyWords, setAddedToMyWords] = useState<Set<string>>(new Set());
+  const [addWordSuccess, setAddWordSuccess] = useState('');
   
   const navigate = useNavigate();
 
@@ -76,6 +78,7 @@ const DictionaryPractice: React.FC = () => {
       setSuggestedTranslation('');
       setReportReason('');
       setReportSuccess('');
+      setAddWordSuccess('');
     }
   };
 
@@ -87,6 +90,7 @@ const DictionaryPractice: React.FC = () => {
       setSuggestedTranslation('');
       setReportReason('');
       setReportSuccess('');
+      setAddWordSuccess('');
     }
   };
 
@@ -112,6 +116,33 @@ const DictionaryPractice: React.FC = () => {
       }, 2000);
     } catch (err: any) {
       alert(err.response?.data?.message || 'שגיאה בשליחת הדיווח');
+    }
+  };
+
+  const handleAddToMyWords = async () => {
+    const currentWord = words[currentIndex];
+    
+    // Check if already added
+    if (addedToMyWords.has(currentWord.english)) {
+      setAddWordSuccess('⚠️ המילה כבר נוספה למאגר שלך');
+      setTimeout(() => setAddWordSuccess(''), 2000);
+      return;
+    }
+
+    try {
+      await wordsApi.add(currentWord.english, currentWord.hebrew);
+      
+      setAddedToMyWords(prev => new Set([...prev, currentWord.english]));
+      setAddWordSuccess('✅ המילה נוספה למאגר שלך!');
+      setTimeout(() => setAddWordSuccess(''), 2000);
+    } catch (err: any) {
+      if (err.response?.data?.message?.includes('already exists')) {
+        setAddedToMyWords(prev => new Set([...prev, currentWord.english]));
+        setAddWordSuccess('⚠️ המילה כבר קיימת במאגר שלך');
+      } else {
+        alert(err.response?.data?.message || 'שגיאה בהוספת המילה');
+      }
+      setTimeout(() => setAddWordSuccess(''), 2000);
     }
   };
 
@@ -215,20 +246,48 @@ const DictionaryPractice: React.FC = () => {
                 {currentWord.hebrew}
               </div>
               
-              {/* Report Button */}
+              {/* Action Buttons */}
               {!reportMode && (
-                <button
-                  onClick={() => setReportMode(true)}
-                  className="btn"
-                  style={{
-                    marginTop: '20px',
-                    backgroundColor: '#f59e0b',
-                    color: 'white',
-                    padding: '8px 16px'
-                  }}
-                >
-                  ⚠️ דווח על תרגום שגוי
-                </button>
+                <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '20px' }}>
+                  <button
+                    onClick={handleAddToMyWords}
+                    className="btn"
+                    style={{
+                      backgroundColor: addedToMyWords.has(currentWord.english) ? '#10b981' : '#3b82f6',
+                      color: 'white',
+                      padding: '8px 16px',
+                      opacity: addedToMyWords.has(currentWord.english) ? 0.7 : 1
+                    }}
+                    disabled={addedToMyWords.has(currentWord.english)}
+                  >
+                    {addedToMyWords.has(currentWord.english) ? '✓ נוסף למילים שלי' : '➕ הוסף למילים שלי'}
+                  </button>
+                  <button
+                    onClick={() => setReportMode(true)}
+                    className="btn"
+                    style={{
+                      backgroundColor: '#f59e0b',
+                      color: 'white',
+                      padding: '8px 16px'
+                    }}
+                  >
+                    ⚠️ דווח על תרגום שגוי
+                  </button>
+                </div>
+              )}
+
+              {/* Add Word Success Message */}
+              {addWordSuccess && (
+                <div style={{
+                  marginTop: '15px',
+                  padding: '12px',
+                  backgroundColor: addWordSuccess.includes('✅') ? '#d1fae5' : '#fef3c7',
+                  color: addWordSuccess.includes('✅') ? '#065f46' : '#92400e',
+                  borderRadius: '8px',
+                  fontWeight: 'bold'
+                }}>
+                  {addWordSuccess}
+                </div>
               )}
 
               {/* Report Form */}
@@ -323,7 +382,7 @@ const DictionaryPractice: React.FC = () => {
             className="btn btn-secondary"
             style={{ flex: 1 }}
           >
-            ← מילה קודמת
+             מילה קודמת →
           </button>
           <button
             onClick={() => loadWords(selectedCategory)}
@@ -338,7 +397,7 @@ const DictionaryPractice: React.FC = () => {
             className="btn btn-secondary"
             style={{ flex: 1 }}
           >
-            מילה הבאה →
+            ← מילה הבאה 
           </button>
         </div>
       </div>
