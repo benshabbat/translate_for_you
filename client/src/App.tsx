@@ -5,6 +5,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import Practice from './components/Practice';
+import DictionaryPractice from './components/DictionaryPractice';
 import './index.css';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -39,6 +40,11 @@ function AppRoutes() {
       <Route path="/practice" element={
         <ProtectedRoute>
           <Practice />
+        </ProtectedRoute>
+      } />
+      <Route path="/dictionary-practice" element={
+        <ProtectedRoute>
+          <DictionaryPractice />
         </ProtectedRoute>
       } />
     </Routes>

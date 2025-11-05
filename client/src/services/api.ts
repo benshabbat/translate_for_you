@@ -53,4 +53,24 @@ export const translateApi = {
     api.post('/translate/translate', { text }),
 };
 
+// Dictionary API
+export const dictionaryApi = {
+  // Report incorrect translation
+  reportTranslation: (english: string, currentHebrew: string, suggestedHebrew: string, reason?: string) =>
+    api.post('/dictionary/report', { english, currentHebrew, suggestedHebrew, reason }),
+  
+  // Get user's reports
+  getReports: () => api.get('/dictionary/reports'),
+  
+  // Get random words for practice from global dictionary
+  getPracticeWords: (count: number) => api.get(`/dictionary/practice/${count}`),
+  
+  // Get words by category
+  getPracticeByCategory: (category: string, count: number) =>
+    api.get(`/dictionary/practice/category/${category}?count=${count}`),
+  
+  // Get all categories
+  getCategories: () => api.get('/dictionary/categories'),
+};
+
 export default api;

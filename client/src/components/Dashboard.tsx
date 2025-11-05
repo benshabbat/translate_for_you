@@ -100,6 +100,10 @@ const Dashboard: React.FC = () => {
     navigate('/practice');
   };
 
+  const startDictionaryPractice = () => {
+    navigate('/dictionary-practice');
+  };
+
   const stats = {
     total: words.length,
     practiced: words.filter(w => w.lastPracticed).length,
@@ -152,8 +156,11 @@ const Dashboard: React.FC = () => {
               <button onClick={() => setShowAddForm(!showAddForm)} className="btn btn-primary">
                 {showAddForm ? 'ביטול' : '+ הוסף מילה'}
               </button>
+              <button onClick={startDictionaryPractice} className="btn" style={{ backgroundColor: '#8b5cf6', color: 'white' }}>
+                📖 תרגול מהמאגר (1000 מילים)
+              </button>
               <button onClick={startPractice} className="btn btn-secondary">
-                🎯 התחל תרגול
+                🎯 תרגול המילים שלי
               </button>
             </div>
           </div>

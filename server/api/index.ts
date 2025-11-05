@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import authRoutes from '../src/routes/auth';
 import wordRoutes from '../src/routes/words';
 import translateRoutes from '../src/routes/translate';
+import dictionaryRoutes from '../src/routes/dictionary';
 
 // Load environment variables
 dotenv.config();
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', authRoutes);
 app.use('/api/words', wordRoutes);
 app.use('/api/translate', translateRoutes);
+app.use('/api/dictionary', dictionaryRoutes);
 
 // Health check
 app.get('/api/health', (req: Request, res: Response) => {
